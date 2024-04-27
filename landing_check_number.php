@@ -65,10 +65,7 @@ foreach ($rows as $row) {
 	
 	
 	$result_contact = json_decode($out, true);
-	//print_r($result_contact);
 	$leads = $result_contact['_embedded']['leads'];
-	//echo count($leads);
-		
 	foreach ($leads as $lead) {
 		$lead['id'];
 		$leads_id = $lead['id'];
@@ -87,10 +84,8 @@ foreach ($rows as $row) {
 		$code = (int) $code;
 		$result_lead = json_decode($out, true);
 		$responsible_user_id = $result_lead['responsible_user_id'];
-		//echo ($responsible_user_id);
 		if ($result_lead['status_id'] != 143 && $result_lead['status_id'] != 142) {
 			$time=intval(time());
-			echo ($time);
 			$data_for_tasks =$data_for_tasks = [
 				[
 				'responsible_user_id' => $responsible_user_id,
