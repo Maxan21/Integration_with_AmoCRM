@@ -7,6 +7,7 @@ redirect_uri = ""
 secret_code =''
 access_token = ''
 refresh_token = ''
+subdomain=''
 def init_oauth2():
     global access_token, refresh_token
     data = {
@@ -17,7 +18,7 @@ def init_oauth2():
         "redirect_uri": redirect_uri
     }
 
-    response = requests.post("https://itnw.amocrm.ru/oauth2/access_token", json=data).json()
+    response = requests.post(f"https://{subdomain}/oauth2/access_token", json=data).json()
 
     access_token = response['access_token']
 
@@ -32,7 +33,7 @@ def get_list():
     c=0
     while True:
         try:
-            response = requests.get("https://itnw.amocrm.ru/api/v4/contacts", headers=headers, params={'page':i}).json()
+            response = requests.get(f"https://{subdomain}/api/v4/contacts", headers=headers, params={'page':i}).json()
             i+=1
             k=0
 
@@ -44,11 +45,11 @@ def get_list():
                         data={
                             "with" : "leads"    
                             }
-                        response_contact = requests.get(f"https://itnw.amocrm.ru/api/v4/contacts/{id}", headers=headers, params=data).json()
+                        response_contact = requests.get(f"https://{subdomain}/api/v4/contacts/{id}", headers=headers, params=data).json()
                         summ=0
                         for j in range(len(response_contact['_embedded']['leads'])):
                             resp=response_contact['_embedded']['leads'][j]['id']
-                            response1=requests.get(f"https://itnw.amocrm.ru/api/v4/leads/{resp}", headers=headers).json()
+                            response1=requests.get(f"https://{subdomain}/api/v4/leads/{resp}", headers=headers).json()
                             if (response1['status_id'])==142:
                                 summ+=response1['price']
                         if summ<=10000:
@@ -72,7 +73,7 @@ def get_list():
                                 "name" : list_name[4]
                                 }
                             
-                        change=(requests.patch(f"https://itnw.amocrm.ru/api/v4/contacts/{id}", headers=headers, json=data))
+                        change=(requests.patch(f"https://{subdomain}/api/v4/contacts/{id}", headers=headers, json=data))
                         print(id, change)
                         c+=1
                     k+=1

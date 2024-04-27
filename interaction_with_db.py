@@ -103,8 +103,6 @@ def get_number():
             cnx.commit()
             time.sleep(3000)
         except Exception as e:
-            print(phone)
-            print(i)
             cursor.close()
             cnx.close()
             break
